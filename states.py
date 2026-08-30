@@ -4,6 +4,11 @@ class AuthState(StatesGroup):
     username = State()
     password = State()
 
+class Register(StatesGroup):
+    username = State()
+    password = State()
+    confirm = State()
+
 class SubjectState(StatesGroup):
     add_name = State()
 

@@ -1,0 +1,10 @@
+services:
+  telegram-bot:
+    build: .
+    container_name: file-manager-telegram-bot
+    env_file: .env
+    restart: always
+    volumes:
+      - /var/private/uploads:/app/uploads
+      - /var/private/users.db:/app/users.db
+      - /var/private/new_users.db:/app/new_users.db

@@ -39,8 +39,14 @@ def add_user(username, password_hash, folder_path):
 def get_subjects(user_id):
     with connection(NEW_DB_PATH) as db:
         return db.execute(
-            "SELECT name FROM subjects WHERE user_id = ? ORDER BY id", (user_id,)
+            "SELECT id, name FROM subjects WHERE user_id = ? ORDER BY id", (user_id,)
         ).fetchall()
+
+def get_subject_by_id(user_id, subject_id):
+    with connection(NEW_DB_PATH) as db:
+        return db.execute(
+            "SELECT * FROM subjects WHERE user_id = ? AND id = ?", (user_id, subject_id)
+        ).fetchone()
 
 def subject_exists(user_id, subject):
     with connection(NEW_DB_PATH) as db:

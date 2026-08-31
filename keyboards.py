@@ -11,15 +11,15 @@ def main_menu():
 def subjects_menu(subjects, mode="view"):
     rows = []
     for s in subjects:
-        rows.append([InlineKeyboardButton(text=s, callback_data=f"{mode}:subject:{s}")])
+        rows.append([InlineKeyboardButton(text=s["name"], callback_data=f"{mode}:subj:{s['id']}")])
     rows.append([InlineKeyboardButton(text="➕ Добавить предмет", callback_data="subject:add")])
     rows.append([InlineKeyboardButton(text="⬅️ Главное меню", callback_data="menu")])
     return InlineKeyboardMarkup(inline_keyboard=rows)
 
-def file_menu(subject, filename, mode):
+def file_menu(subject_id, file_idx, mode):
     rows = []
     if mode == "download":
-        rows.append([InlineKeyboardButton(text="📥 Скачать", callback_data=f"download:file:{subject}:{filename}")])
-    rows.append([InlineKeyboardButton(text="🗑 Удалить", callback_data=f"delete:file:{subject}:{filename}")])
-    rows.append([InlineKeyboardButton(text="⬅️ Назад", callback_data=f"{mode}:subject:{subject}")])
+        rows.append([InlineKeyboardButton(text="📥 Скачать", callback_data=f"dl:f:{subject_id}:{file_idx}")])
+    rows.append([InlineKeyboardButton(text="🗑 Удалить", callback_data=f"del:f:{subject_id}:{file_idx}")])
+    rows.append([InlineKeyboardButton(text="⬅️ Назад", callback_data=f"{mode}:subj:{subject_id}")])
     return InlineKeyboardMarkup(inline_keyboard=rows)

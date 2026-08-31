@@ -28,6 +28,14 @@ def get_user_by_folder(folder_path):
     with connection(OLD_DB_PATH) as db:
         return db.execute("SELECT * FROM users WHERE folder_path = ?", (folder_path,)).fetchone()
 
+def add_user(username, password_hash, folder_path):
+    with connection(NEW_DB_PATH) as db:
+        cursor = db.execute(
+            "INSERT INTO users (username, password_hash, folder_path) VALUES (?, ?, ?)",
+            (username, password_hash, str(folder_path))
+        )
+        return cursor.lastrowid
+
 def get_subjects(user_id):
     with connection(NEW_DB_PATH) as db:
         return db.execute(

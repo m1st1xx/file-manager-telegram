@@ -46,8 +46,8 @@ jobs:
 
             cd /home/ubuntu/
 
-            git fetch file-manager-telegram main
-            git reset --hard file-manager-telegram/main
+            git fetch myfiles-telegram main
+            git reset --hard myfiles-telegram/main
 
             sudo docker compose up -d --build --remove-orphans
 

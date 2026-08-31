@@ -25,7 +25,8 @@ def user_subject_path(user, subject):
 
 def clean_filename(name):
     name = Path(name).name
-    name = re.sub(r'[<>:"/\\\\|?*\\x00-\\x1f]', "_", name).strip()
+    # Исправлена экранировка: \x00-\x1f теперь корректно удаляет только управляющие символы
+    name = re.sub(r'[<>:"/\\|?*\x00-\x1f]', "_", name).strip()
     return name[:100]
 
 

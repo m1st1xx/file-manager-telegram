@@ -31,8 +31,7 @@ async def start(message: Message, state: FSMContext):
     if user_id(message):
         await message.answer("Главное меню:", reply_markup=main_menu())
         return
-    await state.set_state(AuthState.username)
-    await message.answer("Введите username от вашего аккаунта сайта (или зарегистрируйтесь через /register):")
+    await message.answer("Учебные файлы \n функционал сайта myfiles-kai.ru в telegram \n можете загружать и скачивать файлы также как и на сайте \n сайт и бот одна общая система - все файлы и учетные записи синхронизированы т.е. если вы зарегистрировались и загрузили файл на сайте вы можете пользоваться этим в боте и наоборот \n Используйте: \n /login - для входа \n /register для регистрации нового пользователя")
 
 
 @router.message(Command("login"))

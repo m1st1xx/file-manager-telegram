@@ -44,7 +44,7 @@ jobs:
           script: |
             set -e
 
-            cd /home/ubuntu/
+            cd /home/ubuntu/myfiles-telegram
 
             git fetch myfiles-telegram main
             git reset --hard myfiles-telegram/main

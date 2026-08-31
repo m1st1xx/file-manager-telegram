@@ -523,7 +523,7 @@ Telegram
 Например:
 
 ```text
-MIT License
+BSL License
 ```
 
 ---
@@ -538,7 +538,8 @@ https://github.com/m1st1xx
 
 Telegram Bot:
 
-`@YOUR_BOT_USERNAME`
+https://t.me/file_manager_kai_bot или в telegram
+`@file_manager_kai_bot`
 
 ---
 
@@ -549,6 +550,6 @@ Telegram Bot:
 *Управляйте своими файлами прямо из Telegram.*
 
 </p>
-``` 
 
-Если хочешь, я также могу сделать **более эффектную GitHub-версию README** — с badges, красивым блоком возможностей, GIF/скриншотами интерфейса бота, таблицей команд и отдельной схемой архитектуры.
+
+

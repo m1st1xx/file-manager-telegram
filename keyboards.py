@@ -18,7 +18,7 @@ def subjects_menu(subjects, mode="view"):
 
 def file_menu(subject_id, file_idx, mode):
     rows = []
-    if mode == "download":
+    if mode in ("download", "view"):
         rows.append([InlineKeyboardButton(text="📥 Скачать", callback_data=f"dl:f:{subject_id}:{file_idx}")])
     rows.append([InlineKeyboardButton(text="🗑 Удалить", callback_data=f"del:f:{subject_id}:{file_idx}")])
     rows.append([InlineKeyboardButton(text="⬅️ Назад", callback_data=f"{mode}:subj:{subject_id}")])

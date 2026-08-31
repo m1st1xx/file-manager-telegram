@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message, FSInputFile, InlineKeyboardMarkup, InlineKeyboardButton
 from database import get_user_by_id, get_subject_by_id, subject_exists
-from keyboards import main_menu
+from keyboards import main_menu, file_menu
 from handlers.auth import SESSIONS
 from config import UPLOAD_BASE, MAX_FILE_SIZE
 from pathlib import Path
@@ -65,8 +65,9 @@ async def list_files(cb, mode):
     buttons = []
     for idx, p in enumerate(files):
         btn_text = p.name if len(p.name) <= 40 else p.name[:37] + "..."
+        # Нажатие на файл открывает меню действий (fi:subject_id:file_idx:mode)
         buttons.append([InlineKeyboardButton(
-            text=btn_text, callback_data=f"dl:f:{subject_id}:{idx}"
+            text=btn_text, callback_data=f"fi:{subject_id}:{idx}:{mode}"
         )])
 
     if mode == "upload":
@@ -74,6 +75,30 @@ async def list_files(cb, mode):
     buttons.append([InlineKeyboardButton(text="⬅️ Предметы",
                                          callback_data="upload_subjects" if mode == "upload" else "download_subjects")])
     await cb.message.edit_text(text, reply_markup=InlineKeyboardMarkup(inline_keyboard=buttons))
+
+
+# Открытие меню управления выбранным файлом
+@router.callback_query(F.data.startswith("fi:"))
+async def show_file_options(cb: CallbackQuery):
+    uid = SESSIONS.get(cb.from_user.id)
+    user = get_user_by_id(uid)
+    _, subject_id_str, file_idx_str, mode = cb.data.split(":")
+    subject_id, file_idx = int(subject_id_str), int(file_idx_str)
+
+    subject_row = get_subject_by_id(uid, subject_id)
+    if not user or not subject_row:
+        return await cb.answer("Файл не найден", show_alert=True)
+
+    subject = subject_row["name"]
+    path = user_subject_path(user, subject)
+    files = sorted([p for p in path.iterdir() if p.is_file()])
+
+    if file_idx < 0 or file_idx >= len(files):
+        return await cb.answer("Файл не найден", show_alert=True)
+
+    file_path = files[file_idx]
+    text = f"📄 **Файл:** {file_path.name}\n📚 **Предмет:** {subject}"
+    await cb.message.edit_text(text, reply_markup=file_menu(subject_id, file_idx, mode))
 
 
 @router.callback_query(F.data.startswith("upload_now:"))

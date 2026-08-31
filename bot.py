@@ -14,6 +14,7 @@ async def main():
         bot = Bot(BOT_TOKEN, session=session)
     else:
         bot = Bot(BOT_TOKEN)
+    logging.basicConfig(level=logging.WARNING)
 
     dp = Dispatcher()
     dp.include_router(auth.router)

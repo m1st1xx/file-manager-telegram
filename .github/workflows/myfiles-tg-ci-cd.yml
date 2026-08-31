@@ -44,10 +44,10 @@ jobs:
           script: |
             set -e
 
-            cd /home/ubuntu/myfiles-telegram
+            cd /home/ubuntu/
 
-            git fetch myfiles-telegram main
-            git reset --hard myfiles-telegram/main
+            git fetch file-manager-telegram main
+            git reset --hard file-manager-telegram/main
 
             sudo docker compose up -d --build --remove-orphans
 

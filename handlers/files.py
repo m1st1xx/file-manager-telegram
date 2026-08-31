@@ -104,6 +104,7 @@ async def download_file(cb: CallbackQuery):
         return await cb.answer("Файл не найден", show_alert=True)
     await cb.answer()
     await cb.message.answer_document(FSInputFile(path))
+    await cb.message.answer(f"Файл «{filename}» загружен.", reply_markup=main_menu())
 
 @router.callback_query(F.data.startswith("delete:file:"))
 async def delete_file(cb: CallbackQuery):

@@ -1,0 +1,54 @@
+name: Deploy server
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Check Python syntax
+        run: |
+          python -m py_compile bot.py
+
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+          script: |
+            set -e
+
+            cd /home/ubuntu/myfiles-telegram
+
+            git fetch myfiles-telegram main
+            git reset --hard myfiles-telegram/main
+
+            sudo docker compose up -d --build --remove-orphans
+
+            sudo docker image prune -f

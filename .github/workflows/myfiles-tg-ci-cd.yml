@@ -40,11 +40,12 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: ${{ secrets.PORT }}
 
           script: |
             set -e
 
-            cd /home/ubuntu/myfiles-telegram
+            cd ${{ secrets.PROJECT_PATH }}
 
             git fetch myfiles-telegram main
             git reset --hard myfiles-telegram/main
